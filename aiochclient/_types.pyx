@@ -154,7 +154,7 @@ cdef list seq_parser(str raw):
             in_arr = False
         elif in_tup and sym == TUP_CLS and not in_str:
             in_tup = False
-        elif not in_str and sym == cls.DQ:
+        elif not in_str and sym == DQ:
             if not escape_char:
                 in_str = True
         if in_str and sym == ESCAPE_OP:
