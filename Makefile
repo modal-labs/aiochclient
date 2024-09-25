@@ -27,5 +27,5 @@ docker-clickhouse:
 	docker start cs || docker run -p 8123:8123 -d --name cs clickhouse/clickhouse-server
 
 install-dev-requirements:
-	pip install twine
-	pip install -r dev-requirements/dev-requirements-cython-ciso.txt --upgrade
+	pip3 install twine
+	pip3 install -r dev-requirements/dev-requirements-cython-ciso.txt --upgrade

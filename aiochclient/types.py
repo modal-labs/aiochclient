@@ -126,10 +126,13 @@ class BaseType(ABC):
             elif in_str and sym == cls.DQ:
                 if not escape_char:
                     in_str = not in_str
-            elif in_arr and sym == cls.ARR_CLS:
+            elif in_arr and sym == cls.ARR_CLS and not in_str:
                 in_arr = False
-            elif in_tup and sym == cls.TUP_CLS:
+            elif in_tup and sym == cls.TUP_CLS and not in_str:
                 in_tup = False
+            elif not in_str and sym == cls.DQ:
+                if not escape_char:
+                    in_str = True
             if in_str and sym == cls.ESCAPE_OP:
                 escape_char = not escape_char
             else:
