@@ -73,6 +73,7 @@ def rows(uuid):
             IPv6Address('2001:44c8:129:2632:33:0:252:2'),
             dt.datetime(2018, 9, 21, 10, 32, 23, 999000),
             True,
+            {},
             {"hello": "world {' and other things"},
             {"hello": {"inner": "world {' and other things"}},
             {'key1': {'key2': [uuid]}},
@@ -127,6 +128,7 @@ def rows(uuid):
             None,
             dt.datetime(2019, 1, 1, 3, 0),
             False,
+            {},
             {"hello": "world {'"},
             {"hello": {"inner": "world {'"}},
             {'key1': {'key2': [uuid, uuid, uuid]}},
@@ -221,6 +223,7 @@ async def all_types_db(chclient, rows):
                             ipv6 Nullable(IPv6),
                             datetime64 DateTime64(3, 'Europe/Moscow'),
                             bool Bool,
+                            empty_map Map(String, String),
                             map Map(String, String),
                             map_map Map(String, Map(String, String)),
                             map_map_array_uuid Map(String, Map(String, Array(UUID))),
@@ -914,6 +917,19 @@ class TestTypes:
         )
         assert round(result[0]) == 1
         assert round(result[1]) == 2
+
+    async def test_empty_map(self):
+        # Test empty map field value
+        assert await self.select_field("empty_map") == {}
+        record = await self.select_record("empty_map")
+        assert record[0] == {}
+        assert record["empty_map"] == {}
+
+        # Test empty map bytes representation
+        assert await self.select_field_bytes("empty_map") == b"{}"
+        record = await self.select_record_bytes("empty_map")
+        assert record[0] == b"{}"
+        assert record["empty_map"] == b"{}"
 
 
 @pytest.mark.fetching
